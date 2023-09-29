@@ -1,5 +1,8 @@
-class Dog (val name: String, var weight: Int, val height: Int, val breed: String) {
+import java.util.*
+
+class Dog (name: String, var weight: Int, val height: Int, val breed: String) {
     fun bark() {
+        // name cannot be referenced here
         println("bark")
     }
 }
@@ -35,6 +38,11 @@ fun customGettersAndSetters() {
             set(value) = if (value>0) field = value else field = 0
 
     }
+
+    /**
+     * Whenever any field is added, the compiler secretly adds a custom getter to the val fields
+     * and both custom getter as well as setter to var fields
+     * */
 }
 
 fun lateinitVariables() {
@@ -45,7 +53,7 @@ fun lateinitVariables() {
     * */
 
     /*
-    * If a lateinit property is used before getting initialise, then it will an error at runtime
+    * If a lateinit property is used before getting initialise, then it will throw an error at runtime
     * */
 
     /*
