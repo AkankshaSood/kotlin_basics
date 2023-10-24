@@ -3,9 +3,28 @@ fun main() {
      * Abstract functions are useful when because even though they dont contain any code,
      * they define the parameters and the return type
      * */
+
+    /**
+     * Interfaces determine a protocol
+     * */
+
+    isAndAs()
+    whenTest(2)
 }
 
+fun whenTest(a: Any) {
+    println (when(a) {
+        in 1..5 -> "in 1 to 5"
+        6 -> "6"
+        7,8 -> "7,8"
+        is String -> "string"
+        else -> "idk!"
+    })
+}
+
+// abstract classes don't have to be marked open
 abstract class Animal2(val type: String) {
+    abstract val image: String
     abstract fun makeNoise()
 
     // even in abstarct classes, if you are overriding the functions then open and override keywords are important
@@ -27,7 +46,10 @@ abstract class Canine(type: String): Animal2(type) {
     }
 }
 
-class Lion: Canine("lion") {
+class Lion() : Canine("lion") {
+    //notice how directly the property was made non-abstract here
+    override val image = "lion image"
+
     override fun makeNoise() {
         println("roarrrr")
     }
@@ -45,7 +67,7 @@ interface Roamable {
     }
 }
 
-//paranetheses are not required after Roamable because it has not contructor
+//parentheses are not required after Roamable because it has not constructor
 class Car: Roamable {
     override var velocity: Int = 20
         get() = 20
@@ -57,6 +79,8 @@ class Car: Roamable {
 
 // both inhereits and extends
 class Cub: Canine("lion"), Roamable {
+    override val image = "cub"
+
     override var velocity: Int = 20
         get() = 20
 
@@ -74,6 +98,8 @@ interface A {
     fun test() {
         println("test a")
     }
+
+    fun emptyTest()
 }
 
 interface B {
@@ -96,10 +122,24 @@ class C: A, B {
     override fun test2() {
         super.test2()
     }
+
+    override fun emptyTest() {
+        TODO("Not yet implemented")
+    }
 }
 
-/*
-* What is the difference between abstract class and an interface?
+class D: A {
+    fun test3() {
+        println("test 3")
+    }
+
+    override fun emptyTest() {
+        TODO("Not yet implemented")
+    }
+}
+
+/**
+* [IMPORTANT] What is the difference between abstract class and an interface?
 * Abstract functions cannot have definitions but interface functions can,
 * because in abstract class you define a template for a group of subclasses
 * whereas in interface you define some common behaviour
@@ -108,4 +148,19 @@ class C: A, B {
 /*
 * is is used to ensure the subtype, like if (wolf is Animal)
 * */
+fun isAndAs() {
+    val arr = arrayOf(C(), D())
+    for (item in arr) {
+        item.test()
+        if (item is D) {
+            item.test3()
+        }
+        println("is not D? ${item !is D}")
+    }
+    val c = D()
+    if (c is D) {
+        c.test3()
+    }
+
+}
 
